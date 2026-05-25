@@ -1,0 +1,144 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+  background: #1a0f08;
+}
+
+.app {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.app canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.ui-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 16px 40px;
+  pointer-events: none;
+  gap: 16px;
+}
+
+.button-row {
+  display: flex;
+  gap: 12px;
+  pointer-events: auto;
+}
+
+.btn {
+  padding: 14px 36px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-family: inherit;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  letter-spacing: 2px;
+  border: 2px solid;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-ask {
+  color: #f5e6d3;
+  background: linear-gradient(135deg, #8B4513, #A0522D);
+  border-color: #D4A574;
+}
+
+.btn-ask:hover:not(:disabled) {
+  background: linear-gradient(135deg, #A0522D, #CD853F);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(139, 69, 19, 0.5);
+}
+
+.btn-ask:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-reset {
+  color: #ccc;
+  background: linear-gradient(135deg, #444, #555);
+  border-color: #888;
+}
+
+.btn-reset:hover:not(:disabled) {
+  background: linear-gradient(135deg, #555, #666);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.5);
+}
+
+.btn-reset:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.result-card {
+  pointer-events: auto;
+  background: rgba(44, 24, 16, 0.92);
+  border: 2px solid #D4A574;
+  border-radius: 16px;
+  padding: 20px 32px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  animation: fadeIn 0.4s ease;
+  min-width: 220px;
+}
+
+.result-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #F5DEB3;
+  margin-bottom: 6px;
+}
+
+.result-meaning {
+  font-size: 0.95rem;
+  color: #C4A882;
+  line-height: 1.5;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 480px) {
+  .ui-overlay {
+    padding: 0 12px 24px;
+  }
+
+  .btn {
+    padding: 12px 22px;
+    font-size: 0.95rem;
+  }
+
+  .result-card {
+    padding: 14px 20px;
+    min-width: 160px;
+  }
+
+  .result-title {
+    font-size: 1.3rem;
+  }
+}
