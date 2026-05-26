@@ -1,6 +1,7 @@
 import { useRef, useMemo, forwardRef, useImperativeHandle } from 'react';
 import { RigidBody, type RapierRigidBody, ConvexHullCollider } from '@react-three/rapier';
 import * as THREE from 'three';
+import { createWoodTexture } from '../utils/textures';
 
 function createHalfEllipsoidGeometry(width: number, height: number, depth: number, segs = 24) {
   const geo = new THREE.SphereGeometry(1, segs, Math.ceil(segs / 2), 0, Math.PI * 2, 0, Math.PI / 2);
@@ -45,6 +46,8 @@ export const ShengBeiBlock = forwardRef<RapierRigidBody, ShengBeiBlockProps>(
       return { geometry: geo, colliderVerts: getColliderVertices(geo) };
     }, []);
 
+    const woodTexture = useMemo(() => createWoodTexture(), []);
+
     return (
       <RigidBody
         ref={innerRef}
@@ -58,9 +61,9 @@ export const ShengBeiBlock = forwardRef<RapierRigidBody, ShengBeiBlockProps>(
         <group position={[0, -COLLIDER_BOTTOM_OFFSET, 0]}>
           <mesh geometry={geometry} castShadow receiveShadow>
             <meshStandardMaterial
-              color="#CC2222"
-              roughness={0.7}
-              metalness={0.15}
+              map={woodTexture}
+              roughness={0.75}
+              metalness={0}
             />
           </mesh>
           <mesh
@@ -70,9 +73,9 @@ export const ShengBeiBlock = forwardRef<RapierRigidBody, ShengBeiBlockProps>(
           >
             <circleGeometry args={[0.5, 32]} />
             <meshStandardMaterial
-              color="#CC2222"
-              roughness={0.7}
-              metalness={0.15}
+              color="#5C0000"
+              roughness={0.8}
+              metalness={0}
               side={THREE.DoubleSide}
             />
           </mesh>

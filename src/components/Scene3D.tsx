@@ -19,7 +19,7 @@ const REST_POSITION: [number, number, number][] = [
   [0.2, 0.12, 0],
 ];
 
-const DROP_HEIGHT = 2.5;
+const DROP_HEIGHT = 4.0;
 
 const HALF_SIZE = 3.5;
 
@@ -69,10 +69,10 @@ function ResponsiveCamera() {
     const cam = state.camera as THREE.PerspectiveCamera;
     const aspect = width / height;
     if (aspect < 1) {
-      cam.position.set(0, 4.5, 5.5);
+      cam.position.set(0, 5.5, 5.5);
       cam.fov = 60;
     } else {
-      cam.position.set(0, 3.5, 5.5);
+      cam.position.set(0, 4.5, 5.5);
       cam.fov = 50;
     }
     cam.updateProjectionMatrix();
