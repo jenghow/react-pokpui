@@ -19,7 +19,7 @@ const REST_POSITION: [number, number, number][] = [
   [0.2, 0.12, 0],
 ];
 
-const DROP_HEIGHT = 2.5;
+const DROP_HEIGHT = 4.0;
 
 const HALF_SIZE = 3.5;
 

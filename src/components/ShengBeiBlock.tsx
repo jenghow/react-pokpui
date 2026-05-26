@@ -1,6 +1,7 @@
 import { useRef, useMemo, forwardRef, useImperativeHandle } from 'react';
 import { RigidBody, type RapierRigidBody, ConvexHullCollider } from '@react-three/rapier';
 import * as THREE from 'three';
+import { createWoodTexture } from '../utils/textures';
 
 function createHalfEllipsoidGeometry(width: number, height: number, depth: number, segs = 24) {
   const geo = new THREE.SphereGeometry(1, segs, Math.ceil(segs / 2), 0, Math.PI * 2, 0, Math.PI / 2);
@@ -40,6 +41,8 @@ export const ShengBeiBlock = forwardRef<RapierRigidBody, ShengBeiBlockProps>(
       const geo = createHalfEllipsoidGeometry(0.38, 0.28, 0.26);
       return { geometry: geo, colliderVerts: getColliderVertices(geo) };
     }, []);
+
+    const woodTexture = useMemo(() => createWoodTexture(), []);
 
     return (
       <RigidBody
