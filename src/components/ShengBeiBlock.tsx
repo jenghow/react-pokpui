@@ -14,18 +14,14 @@ function createHalfEllipsoidGeometry(width: number, height: number, depth: numbe
   return geo;
 }
 
-const COLLIDER_BOTTOM_OFFSET = 0.06;
-
 function getColliderVertices(geo: THREE.BufferGeometry) {
   const pos = geo.attributes.position;
   const verts: number[] = [];
-  let rimIndex = 0;
   for (let i = 0; i < pos.count; i++) {
-    const x = pos.getX(i); let y = pos.getY(i); const z = pos.getZ(i);
-    if (y < 0.001) {
-      const perturb = (Math.sin(rimIndex * 1.7 + 0.3) * 0.5 + 0.5) * COLLIDER_BOTTOM_OFFSET;
-      y -= perturb;
-      rimIndex++;
+    let x = pos.getX(i), y = pos.getY(i), z = pos.getZ(i);
+    if (Math.abs(y) < 0.001) {
+      const a = Math.atan2(z, x);
+      y = Math.sin(a * 5 + 0.7) * 0.006 - 0.006;
     }
     verts.push(x, y, z);
   }
@@ -58,28 +54,26 @@ export const ShengBeiBlock = forwardRef<RapierRigidBody, ShengBeiBlockProps>(
         canSleep
       >
         <ConvexHullCollider args={[colliderVerts]} />
-        <group position={[0, -COLLIDER_BOTTOM_OFFSET, 0]}>
-          <mesh geometry={geometry} castShadow receiveShadow>
-            <meshStandardMaterial
-              map={woodTexture}
-              roughness={0.75}
-              metalness={0}
-            />
-          </mesh>
-          <mesh
-            position={[0, 0.001, 0]}
-            rotation={[-Math.PI / 2, 0, 0]}
-            scale={[0.76, 0.52, 1]}
-          >
-            <circleGeometry args={[0.5, 32]} />
-            <meshStandardMaterial
-              color="#5C0000"
-              roughness={0.8}
-              metalness={0}
-              side={THREE.DoubleSide}
-            />
-          </mesh>
-        </group>
+        <mesh geometry={geometry} castShadow receiveShadow>
+          <meshStandardMaterial
+            color="#CC2222"
+            roughness={0.7}
+            metalness={0.15}
+          />
+        </mesh>
+        <mesh
+          position={[0, 0.001, 0]}
+          rotation={[-Math.PI / 2, 0, 0]}
+          scale={[0.76, 0.52, 1]}
+        >
+          <circleGeometry args={[0.5, 32]} />
+          <meshStandardMaterial
+            color="#CC2222"
+            roughness={0.7}
+            metalness={0.15}
+            side={THREE.DoubleSide}
+          />
+        </mesh>
       </RigidBody>
     );
   }

@@ -40,5 +40,6 @@ export function playWoodHitSound() {
     filter.connect(gain);
     gain.connect(ctx.destination);
     source.start();
-  } catch { /* audio context may not be available */ }
+  } catch {
+  }
 }
