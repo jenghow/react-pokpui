@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.wrangler/state/v3/cache/miniflare-CacheObject/metadata.sqlite
+.wrangler/state/v3/cache/miniflare-CacheObject/metadata.sqlite-shm
+.wrangler/state/v3/cache/miniflare-CacheObject/metadata.sqlite-wal
