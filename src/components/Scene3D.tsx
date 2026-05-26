@@ -28,12 +28,14 @@ function determineResult(localY0: THREE.Vector3, localY1: THREE.Vector3): ThrowR
   const up1 = localY1.y > 0.3;
   const down0 = localY0.y < -0.3;
   const down1 = localY1.y < -0.3;
+  const edge0 = localY0.y >= -0.3 && localY0.y <= 0.3;
+  const edge1 = localY1.y >= -0.3 && localY1.y <= 0.3;
 
+  if (edge0 || edge1) return 'li-bei';
   if (up0 && down1) return 'sheng-bei';
   if (down0 && up1) return 'sheng-bei';
   if (up0 && up1) return 'xiao-bei';
-  if (down0 && down1) return 'yin-bei';
-  return 'pending';
+  return 'yin-bei';
 }
 const WALL_HEIGHT = 6;
 const WALL_THICKNESS = 0.15;
@@ -54,6 +56,29 @@ function Wall({ position, size }: { position: [number, number, number]; size: [n
       </mesh>
     </RigidBody>
   );
+}
+
+function ResponsiveCamera() {
+  const prevSize = useRef({ width: 0, height: 0 });
+
+  useFrame((state) => {
+    const { width, height } = state.size;
+    if (width === prevSize.current.width && height === prevSize.current.height) return;
+    prevSize.current = { width, height };
+
+    const cam = state.camera as THREE.PerspectiveCamera;
+    const aspect = width / height;
+    if (aspect < 1) {
+      cam.position.set(0, 4.5, 5.5);
+      cam.fov = 60;
+    } else {
+      cam.position.set(0, 3.5, 5.5);
+      cam.fov = 50;
+    }
+    cam.updateProjectionMatrix();
+  });
+
+  return null;
 }
 
 export function Scene3D({ phase, onPhaseChange, onResult, resetCount }: Scene3DProps) {
@@ -152,13 +177,7 @@ export function Scene3D({ phase, onPhaseChange, onResult, resetCount }: Scene3DP
       const localY0 = up.clone().applyQuaternion(q0);
       const localY1 = up.clone().applyQuaternion(q1);
 
-      const result = determineResult(localY0, localY1);
-      if (result === 'pending') {
-        resultSent.current = false;
-        settleTimer.current = 0;
-        return;
-      }
-      onResult(result);
+      onResult(determineResult(localY0, localY1));
       onPhaseChange('result');
     }
   });
@@ -177,6 +196,8 @@ export function Scene3D({ phase, onPhaseChange, onResult, resetCount }: Scene3DP
       />
       <directionalLight position={[-3, 4, -3]} intensity={0.3} />
       <hemisphereLight args={['#D4B896', '#8B6F47', 0.3]} />
+
+      <ResponsiveCamera />
 
       <Physics gravity={[0, -9.81, 0]}>
         <RigidBody type="fixed" restitution={0.55} friction={0.5}>
